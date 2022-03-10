@@ -58,6 +58,27 @@ func CreateNote(c *fiber.Ctx) error {
 	})
 }
 
+func GetNote(c *fiber.Ctx) error {
+	db := database.DB
+	var note model.Note
+
+	id := c.Params("noteId")
+	db.Find(&note, "id = ?", id)
+	if note.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{
+			"status": "error",
+			"message": "No note present",
+			"data": nil,
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"status": "success",
+		"message": "Note found",
+		"data": note,
+	})
+}
+
 func UpdateNote(c *fiber.Ctx) error {
 	type updateNote struct {
 		Title string `json:"title"`
