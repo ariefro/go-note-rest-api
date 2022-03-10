@@ -1,13 +1,16 @@
 package noteRoutes
 
-import "github.com/gofiber/fiber/v2"
+import (
+	noteHandler "github.com/ariefro/notes-server/handlers/note"
+	"github.com/gofiber/fiber/v2"
+)
 
 func SetupNoteRoutes(router fiber.Router) {
 	note := router.Group("/note")
 
-	note.Post("/", func(c *fiber.Ctx) error {})
-	note.Get("/", func(c *fiber.Ctx) error {})
-	note.Get("/:noteId", func(c *fiber.Ctx) error {})
-	note.Put("/:noteId", func(c *fiber.Ctx) error {})
-	note.Delete("/:noteId", func(c *fiber.Ctx) error {})
+	note.Post("/", noteHandler.CreateNote)
+	note.Get("/", noteHandler.GetNotes)
+	note.Get("/:noteId", noteHandler.GetNote)
+	note.Put("/:noteId", noteHandler.UpdateNote)
+	note.Delete("/:noteId", noteHandler.DeleteNote)
 }
