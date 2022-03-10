@@ -73,7 +73,7 @@ func UpdateNote(c *fiber.Ctx) error {
 	if note.ID == uuid.Nil {
 		return c.Status(404).JSON(fiber.Map{
 			"status": "error",
-			"message": "No notes present",
+			"message": "No note present",
 			"data": nil,
 		})
 	}
@@ -98,5 +98,34 @@ func UpdateNote(c *fiber.Ctx) error {
 		"status": "success",
 		"message": "Updated note",
 		"data": note,
+	})
+}
+
+func DeleteNote(c *fiber.Ctx) error {
+	db := database.DB
+	var note model.Note
+
+	id := c.Params("noteId")
+	db.Find(&note, "id = ?", id)
+	if note.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{
+			"status": "error",
+			"message": "No note present",
+			"data": nil,
+		})
+	}
+
+	err := db.Delete(&note, "id = ?", id).Error
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{
+			"status": "error",
+			"message": "Failed to delete note",
+			"data": nil,
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"status": "success",
+		"message": "Deleted note",
 	})
 }
