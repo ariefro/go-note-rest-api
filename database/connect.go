@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ariefro/notes-server/config"
+	"github.com/ariefro/notes-server/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -22,4 +23,7 @@ func ConnectDB() {
 	}
 
 	fmt.Println("Connection Opened to Database")
+
+	DB.AutoMigrate(&model.Note{})
+	fmt.Println("Database Migrated")
 }
