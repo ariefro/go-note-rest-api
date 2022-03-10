@@ -4,6 +4,7 @@ import (
 	"github.com/ariefro/notes-server/database"
 	"github.com/ariefro/notes-server/model"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 func GetNotes(c *fiber.Ctx) error {
@@ -24,5 +25,35 @@ func GetNotes(c *fiber.Ctx) error {
 		"status": "success",
 		"message": "Notes Found",
 		"data": notes,
+	})
+}
+
+func CreateNote(c *fiber.Ctx) error {
+	db := database.DB
+	note := new(model.Note)
+
+	err := c.BodyParser(note)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Review your input",
+			"data": err,
+		})
+	}
+
+	note.ID = uuid.New()
+	err = db.Create(&note).Error
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Could not create note",
+			"data": err,
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"status": "success",
+		"message": "Created note",
+		"data": note,
 	})
 }
