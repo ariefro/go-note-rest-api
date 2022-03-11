@@ -15,8 +15,7 @@ func GetUser(c *fiber.Ctx) error {
 	if user.Username == "" {
 		return c.Status(404).JSON(fiber.Map{
 			"status": "error",
-			"message": "No user found with ID" + id,
-			"data": user,
+			"message": "No user found with ID " + id,
 		})
 	}
 
