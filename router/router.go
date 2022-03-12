@@ -1,6 +1,7 @@
 package router
 
 import (
+	authRoutes "github.com/ariefro/notes-server/router/auth"
 	noteRoutes "github.com/ariefro/notes-server/router/note"
 	userRoutes "github.com/ariefro/notes-server/router/user"
 	"github.com/gofiber/fiber/v2"
@@ -12,4 +13,5 @@ func SetupRoutes(app *fiber.App) {
 
 	noteRoutes.SetupNoteRoutes(api)
 	userRoutes.SetupUserRoutes(api)
+	authRoutes.SetupAuthRoutes(api)
 }
