@@ -1,15 +1,31 @@
 package userHandler
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/ariefro/notes-server/database"
 	"github.com/ariefro/notes-server/model"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func hashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
+}
+
+func validToken(t *jwt.Token, id string) bool {
+	n, err := strconv.Atoi(id)
+	if err != nil {
+		return false
+	}
+
+	claims := t.Claims.(jwt.MapClaims)
+	uid := int(claims["user_id"].(float64))
+
+	return uid == n
 }
 
 func GetUser(c *fiber.Ctx) error {
@@ -77,5 +93,48 @@ func CreateUser(c *fiber.Ctx) error {
 		"status": "success",
 		"message": "Created user",
 		"data": newUser,
+	})
+}
+
+func UpdateUser(c *fiber.Ctx) error {
+	type UpdateUserInput struct {
+		Names string `json:"names"`
+	}
+
+	var uui UpdateUserInput
+	err := c.BodyParser(&uui)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Review your input",
+			"data": err,
+		}) 
+	}
+
+	id := c.Params("id")
+
+	fmt.Println(id)
+	fmt.Println(c.Locals("User"))
+	token := c.Locals("user").(*jwt.Token)
+	fmt.Println(token)
+
+	if !validToken(token, id) {
+		return c.Status(500).JSON(fiber.Map{
+			"status": "error", 
+			"message": "Invalid token id", 
+			"data": nil})
+	}
+
+	db := database.DB
+	var user model.User
+
+	db.First(&user, id)
+	user.Names = uui.Names
+	db.Save(&user)
+
+	return c.JSON(fiber.Map{
+		"status": "success",
+		"message": "User successfully updated",
+		"data": user,
 	})
 }
