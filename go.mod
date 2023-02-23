@@ -1,4 +1,4 @@
-module github.com/ariefro/notes-server
+module github.com/ariefro/go-note-rest-api
 
 go 1.17
 
