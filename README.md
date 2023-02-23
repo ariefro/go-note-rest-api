@@ -14,7 +14,7 @@ $ go get .
 
 Please create `.env` file with the configuration stated in `.env example`.
 
-## API DOCS
+## API Docs
 
 ```
 https://documenter.getpostman.com/view/16991559/UVsFzUNW
