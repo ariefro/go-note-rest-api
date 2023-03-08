@@ -1,7 +1,7 @@
 package authRouter
 
 import (
-	authHandler "github.com/ariefro/notes-server/handlers/auth"
+	authHandler "github.com/ariefro/go-note-rest-api/handlers/auth"
 	"github.com/gofiber/fiber/v2"
 )
 

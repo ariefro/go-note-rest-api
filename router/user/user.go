@@ -1,8 +1,8 @@
 package userRoute
 
 import (
-	userHandler "github.com/ariefro/notes-server/handlers/user"
-	"github.com/ariefro/notes-server/middleware"
+	userHandler "github.com/ariefro/go-note-rest-api/handlers/user"
+	"github.com/ariefro/go-note-rest-api/middleware"
 	"github.com/gofiber/fiber/v2"
 )
 

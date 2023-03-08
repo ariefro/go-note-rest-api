@@ -1,9 +1,9 @@
 package router
 
 import (
-	authRoutes "github.com/ariefro/notes-server/router/auth"
-	noteRoutes "github.com/ariefro/notes-server/router/note"
-	userRoutes "github.com/ariefro/notes-server/router/user"
+	authRoutes "github.com/ariefro/go-note-rest-api/router/auth"
+	noteRoutes "github.com/ariefro/go-note-rest-api/router/note"
+	userRoutes "github.com/ariefro/go-note-rest-api/router/user"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )

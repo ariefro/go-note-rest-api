@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/ariefro/notes-server/config"
-	"github.com/ariefro/notes-server/model"
+	"github.com/ariefro/go-note-rest-api/config"
+	"github.com/ariefro/go-note-rest-api/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

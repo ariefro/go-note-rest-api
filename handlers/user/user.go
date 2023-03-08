@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/ariefro/notes-server/database"
-	"github.com/ariefro/notes-server/model"
+	"github.com/ariefro/go-note-rest-api/database"
+	"github.com/ariefro/go-note-rest-api/model"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
@@ -36,22 +36,22 @@ func GetUser(c *fiber.Ctx) error {
 	db.Find(&user, "id = ?", id)
 	if user.Username == "" {
 		return c.Status(404).JSON(fiber.Map{
-			"status": "error",
+			"status":  "error",
 			"message": "No user found with ID " + id,
 		})
 	}
 
 	return c.JSON(fiber.Map{
-		"status": "success",
+		"status":  "success",
 		"message": "User found",
-		"data": user,
+		"data":    user,
 	})
 }
 
 func CreateUser(c *fiber.Ctx) error {
 	type NewUser struct {
 		Username string `json:"username"`
-		Email string `json:"email"`
+		Email    string `json:"email"`
 	}
 
 	db := database.DB
@@ -59,18 +59,18 @@ func CreateUser(c *fiber.Ctx) error {
 	err := c.BodyParser(user)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"status": "error",
+			"status":  "error",
 			"message": "Review your input",
-			"data": err,
-		}) 
+			"data":    err,
+		})
 	}
 
 	hash, err := hashPassword(user.Password)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"status": "error",
+			"status":  "error",
 			"message": "Could not hash password",
-			"data": err,
+			"data":    err,
 		})
 	}
 
@@ -78,21 +78,21 @@ func CreateUser(c *fiber.Ctx) error {
 	err = db.Create(&user).Error
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"status": "error",
+			"status":  "error",
 			"message": "Could not create user",
-			"data": err,
+			"data":    err,
 		})
 	}
 
-	newUser := NewUser {
-		Email: user.Email,
+	newUser := NewUser{
+		Email:    user.Email,
 		Username: user.Username,
 	}
 
 	return c.JSON(fiber.Map{
-		"status": "success",
+		"status":  "success",
 		"message": "Created user",
-		"data": newUser,
+		"data":    newUser,
 	})
 }
 
@@ -105,10 +105,10 @@ func UpdateUser(c *fiber.Ctx) error {
 	err := c.BodyParser(&uui)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"status": "error",
+			"status":  "error",
 			"message": "Review your input",
-			"data": err,
-		}) 
+			"data":    err,
+		})
 	}
 
 	id := c.Params("id")
@@ -120,9 +120,9 @@ func UpdateUser(c *fiber.Ctx) error {
 
 	if !validToken(token, id) {
 		return c.Status(500).JSON(fiber.Map{
-			"status": "error", 
-			"message": "Invalid token id", 
-			"data": nil})
+			"status":  "error",
+			"message": "Invalid token id",
+			"data":    nil})
 	}
 
 	db := database.DB
@@ -133,8 +133,8 @@ func UpdateUser(c *fiber.Ctx) error {
 	db.Save(&user)
 
 	return c.JSON(fiber.Map{
-		"status": "success",
+		"status":  "success",
 		"message": "User successfully updated",
-		"data": user,
+		"data":    user,
 	})
 }

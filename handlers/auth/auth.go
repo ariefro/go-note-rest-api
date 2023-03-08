@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ariefro/notes-server/config"
-	"github.com/ariefro/notes-server/database"
-	"github.com/ariefro/notes-server/model"
+	"github.com/ariefro/go-note-rest-api/config"
+	"github.com/ariefro/go-note-rest-api/database"
+	"github.com/ariefro/go-note-rest-api/model"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
